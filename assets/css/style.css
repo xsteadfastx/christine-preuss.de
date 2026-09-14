@@ -208,7 +208,7 @@ address{ font-style:normal; margin-top:2.6rem; font-size:.82rem; color:var(--gre
 footer.site{ border-top:1px solid var(--line); }
 .footer-inner{
   display:flex; justify-content:space-between; align-items:baseline;
-  gap:1rem; padding:1.6rem 0 2.4rem; font-size:.7rem; color:var(--grey);
+  gap:1rem; padding-top:1.6rem; padding-bottom:2.4rem; font-size:.7rem; color:var(--grey);
 }
 dialog{
   font-family:'Plex Mono',monospace; border:1px solid var(--black);
@@ -225,13 +225,14 @@ dialog .x{
 }
 .todo{ color:#c0392b; font-style:italic; }
 
-@media (max-width:760px){
+/* tablets & phones: single-column shell, stacked nav, art 2-up */
+@media (max-width:900px){
   .shell{ grid-template-columns:1fr; gap:1rem; }
-  .toc{ position:static; display:flex; flex-wrap:wrap; gap:1.4rem; padding:1rem 0 .5rem; }
-  .toc .item{ border-bottom:0; }
-  .toc .group{ border-bottom:0; }
-  .toc .caret{ display:none; }
-  .grid{ grid-template-columns:1fr; }
+  .toc{ position:static; }
+  .grid{ grid-template-columns:repeat(2,1fr); }
   .pgrid{ grid-template-columns:1fr; }
   ul.cv li{ grid-template-columns:92px 1fr; }
 }
+
+/* small phones: art single column */
+@media (max-width:600px){ .grid{ grid-template-columns:1fr; } }
