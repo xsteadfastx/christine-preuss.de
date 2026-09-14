@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ if .IsHome }}{{ .Site.Params.siteName }}{{ else }}{{ .Title }} — {{ .Site.Params.siteName }}{{ end }}</title>
+  <meta name="description" content="Christine Preuß — Malerei, Installation und digitale Projekte.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  {{ $css := resources.Get "css/style.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap header-inner">
+    <h1 class="site-title">
+      <a href="{{ "/" | relURL }}" aria-label="{{ .Site.Params.siteName }}"
+        ><span aria-hidden="true"
+          >{{- range $i, $ch := split .Site.Params.siteName "" -}}
+            {{- if eq $ch " " }} {{ else }}<span class="c{{ mod $i 6 }}">{{ $ch }}</span>{{ end -}}
+          {{- end -}}</span>
+      </a>
+    </h1>
+  </div>
+</header>
+
+<div class="wrap shell">
+  {{ $proj := (where .Site.RegularPages "Section" "projekte").ByTitle }}
+  <nav class="toc" id="nav" aria-label="Inhaltsangabe">
+    <a class="item" href="{{ "/#art" | relURL }}"><span class="n">01</span>ART</a>
+    <a class="item" href="{{ "/#vita" | relURL }}"><span class="n">02</span>VITA</a>
+    {{ if $proj }}
+    <button class="group" id="proj-toggle" aria-expanded="false" aria-controls="proj-sublist">
+      <span class="n">03</span>PROJEKTE<span class="caret">&#9662;</span>
+    </button>
+    <div class="sublist" id="proj-sublist"{{ if (eq $.Section "projekte") }} data-open{{ end }}>
+      {{ range $proj }}
+      <a class="item proj{{ if eq .Permalink $.Permalink }} is-active{{ end }}" href="{{ .RelPermalink }}">{{ .Title }}</a>
+      {{ end }}
+    </div>
+    {{ end }}
+    <a class="item" href="{{ "/#contact" | relURL }}"><span class="n">04</span>CONTACT</a>
+  </nav>
+  <main>
+    {{ block "main" . }}{{ end }}
+  </main>
+</div>
+
+  <!-- lightbox gallery (art + projet images) -->
+  <dialog class="lb" id="lightbox">
+    <button class="lb-close" aria-label="Schließen">&times;</button>
+    <button class="lb-nav lb-prev" aria-label="Vorheriges Bild">&#8249;</button>
+    <div class="lb-stage">
+      <img id="lb-img" src="" alt="">
+      <p class="lb-cap"><span id="lb-title"></span><br><span id="lb-sub"></span></p>
+    </div>
+    <button class="lb-nav lb-next" aria-label="Nächstes Bild">&#8250;</button>
+  </dialog>
+
+<footer class="site">
+  <div class="wrap footer-inner">
+    <span>&copy; {{ now.Year }} Christine Preuß</span>
+    <span class="impressum"><a href="#impressum">Impressum</a>
+      <dialog id="impressum">
+        <button class="x" aria-label="Schließen">&times;</button>
+        <h2>Impressum</h2>
+        <p>Angaben gemäß § 5 TMG</p>
+        <address>
+          Christine Preuß<br>
+          Ehmener Str. 30 · 38165 Lehre<br>
+          E-Mail: <a href="mailto:mail@christine-preuss.de">mail@christine-preuss.de</a>
+        </address>
+        <p class="small">
+          Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV: Christine Preuß.
+          <span class="todo">Bitte Angaben prüfen.</span>
+        </p>
+      </dialog>
+    </span>
+  </div>
+</footer>
+
+{{ $js := resources.Get "js/main.js" | minify | fingerprint }}
+<script src="{{ $js.RelPermalink }}"></script>
+</body>
+</html>

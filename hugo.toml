@@ -1,0 +1,28 @@
+baseURL = "https://christine-preuss.de/"
+title   = "Christine Preuß"
+locale  = "de-de"
+defaultContentLanguage = "de"
+
+# single-page site, no sections/taxonomies/rss needed
+disableKinds = ["taxonomy", "RSS"]
+enableRobotsTXT = true
+
+[params]
+  author  = "Christine Preuß"
+  siteName = "CHRISTINE PREUSS"
+
+# Image processing (Hugo Pipes) — portfolio art
+[imaging]
+  resampleFilter = "lanczos"  # sharper photographic scaling
+  anchor = "smart"
+  [imaging.jpeg]
+    quality = 82
+  [imaging.webp]
+    quality = 80
+    method = 3
+    hint = "photo"
+
+# Persist the image cache between builds for fast rebuilds
+[caches]
+  [caches.images]
+    dir = ":cacheDir/images"

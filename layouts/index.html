@@ -1,0 +1,63 @@
+{{ define "main" }}
+    {{ $works := hugo.Data.art }}
+    <section id="art">
+      <h2 class="sechead">ART</h2>
+      <div class="grid">
+        {{ range $i, $w := $works }}
+          {{ with $res := resources.Get (printf "img/art/%s" $w.src) }}
+            {{ $y  := $w.year }}{{ $me := $w.medium }}{{ $sz := $w.size }}
+            {{ $t600   := $res.Resize "600x lanczos" }}
+            {{ $t900   := $res.Resize "900x lanczos" }}
+            {{ $t1200  := $res.Resize "1200x lanczos" }}
+            {{ $t600w  := $res.Resize "600x lanczos webp" }}
+            {{ $t900w  := $res.Resize "900x lanczos webp" }}
+            {{ $t1200w := $res.Resize "1200x lanczos webp" }}
+            {{ $full   := $res.Resize "1600x webp" }}
+            {{ $fullJpg:= $res.Resize "1600x jpeg" }}
+            <figure class="work"
+              data-title="{{ $w.title }}"
+              data-sub="{{ $y }} · {{ $me }}{{ with $sz }} · {{ . }}{{ end }}"
+              data-full-webp="{{ $full.RelPermalink }}"
+              data-full-jpg="{{ $fullJpg.RelPermalink }}">
+              <picture>
+                <source type="image/webp"
+                  srcset="{{ $t600w.RelPermalink }} 600w, {{ $t900w.RelPermalink }} 900w, {{ $t1200w.RelPermalink }} 1200w">
+                <img src="{{ $t900.RelPermalink }}"
+                     srcset="{{ $t600.RelPermalink }} 600w, {{ $t900.RelPermalink }} 900w, {{ $t1200.RelPermalink }} 1200w"
+                     sizes="(min-width:1100px) 33vw, (min-width:720px) 50vw, 100vw"
+                     alt="{{ $w.title }} — {{ $y }}, {{ $me }}" loading="lazy">
+              </picture>
+              <span class="cap">{{ $w.title }}</span>
+              <span class="idx">{{ printf "%02d" (add $i 1) }}</span>
+            </figure>
+          {{ end }}
+        {{ end }}
+      </div>
+    </section>
+
+    <section id="vita">
+      <h2 class="sechead">VITA</h2>
+      <p class="lede">{{ hugo.Data.vita.lede }}</p>
+
+      <h3 class="sub">Werdegang</h3>
+      <ul class="cv">
+        {{ range hugo.Data.vita.cv }}
+        <li><span class="y">{{ .year }}</span><span>{{ .text }}</span></li>
+        {{ end }}
+      </ul>
+
+      <h3 class="sub">Ausgewählte Projekte &amp; Ausstellungen</h3>
+      <ul class="cv">
+        {{ range hugo.Data.vita.selected }}
+        <li><span class="y">{{ .year }}</span><span>{{ .text }}</span></li>
+        {{ end }}
+      </ul>
+    </section>
+
+    <section id="contact">
+      <h2 class="sechead">CONTACT</h2>
+      <p class="lede">{{ hugo.Data.contact.lede }}</p>
+      <p><a class="bigmail" href="mailto:{{ hugo.Data.contact.email }}">{{ hugo.Data.contact.email }}</a></p>
+      <address>{{ hugo.Data.contact.name }}<br>{{ hugo.Data.contact.address }}</address>
+    </section>
+{{ end }}

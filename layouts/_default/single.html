@@ -1,0 +1,62 @@
+{{ define "main" }}
+<article class="page">
+  <header class="page-head">
+    <h2 class="sechead">{{ .Title }}</h2>
+    <p class="page-meta">{{ with .Params.year }}{{ . }}{{ else }}{{ dateFormat "2006" .Date }}{{ end }}</p>
+  </header>
+  <div class="prose">{{ .Content }}</div>
+
+  {{ $vids := .Resources.ByType "video" }}
+  {{ range $vids }}
+    {{ $stem := path.BaseName .Name }}
+    {{ $poster := "" }}
+    {{ range $.Resources.ByType "image" }}
+      {{ if eq (path.BaseName .Name) $stem }}{{ $poster = .RelPermalink }}{{ end }}
+    {{ end }}
+    <figure class="pvideo">
+      <video controls preload="none" playsinline{{ with $poster }} poster="{{ . }}"{{ end }}>
+        <source src="{{ .RelPermalink }}" type="video/mp4">
+      </video>
+    </figure>
+  {{ end }}
+
+  {{ $pics := slice }}
+  {{ range .Resources.ByType "image" }}
+    {{ $stem := path.BaseName .Name }}
+    {{ $isPoster := false }}
+    {{ range $vids }}{{ if eq (path.BaseName .Name) $stem }}{{ $isPoster = true }}{{ end }}{{ end }}
+    {{ if not $isPoster }}{{ $pics = $pics | append . }}{{ end }}
+  {{ end }}
+  {{ with $pics }}
+  <div class="pgrid">
+    {{ range . }}
+      {{ $r  := .Resize "900x lanczos" }}
+      {{ $rw := .Resize "900x lanczos webp" }}
+      {{ $f  := .Resize "1600x webp" }}
+      {{ $fj := .Resize "1600x jpeg" }}
+      <figure class="pimg" data-title="{{ $.Title }}" data-sub="Projekt"
+        data-full-webp="{{ $f.RelPermalink }}" data-full-jpg="{{ $fj.RelPermalink }}">
+        <picture>
+          <source type="image/webp" srcset="{{ $rw.RelPermalink }}">
+          <img src="{{ $r.RelPermalink }}" alt="{{ $.Title }}" loading="lazy">
+        </picture>
+      </figure>
+    {{ end }}
+  </div>
+  {{ end }}
+
+  {{ $list := (where .Site.RegularPages "Section" "projekte").ByTitle }}
+  {{ $prev := false }}{{ $next := false }}
+  {{ range $i, $p := $list }}
+    {{ if eq $p.Permalink $.Permalink }}
+      {{ $next = index $list (add $i 1) }}
+      {{ $prev = index $list (sub $i 1) }}
+    {{ end }}
+  {{ end }}
+  <nav class="pnav">
+    {{ with $prev }}<a class="prev" href="{{ .RelPermalink }}">&#8249; vorheriges</a>{{ end }}
+    <a class="home" href="{{ "/" | relURL }}">&#8592; Übersicht</a>
+    {{ with $next }}<a class="next" href="{{ .RelPermalink }}">nächstes &#8250;</a>{{ end }}
+  </nav>
+</article>
+{{ end }}

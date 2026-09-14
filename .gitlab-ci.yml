@@ -1,0 +1,11 @@
+# vim: ft=yaml.gitlabci
+stages:
+  - check
+check:
+  stage: check
+  tags: &tags
+    - muska
+  variables: &variables
+    NIX_CMD_BASE: "nix develop . -c"
+  script:
+    - $NIX_CMD_BASE nix flake check
