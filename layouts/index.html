@@ -1,7 +1,7 @@
 {{ define "main" }}
     {{ $works := hugo.Data.art }}
     <section id="art">
-      <h2 class="sechead">ART</h2>
+      <h2 class="sechead">ARBEITEN</h2>
       <div class="grid">
         {{ range $i, $w := $works }}
           {{ with $res := resources.Get (printf "img/art/%s" $w.src) }}
@@ -55,7 +55,7 @@
     </section>
 
     <section id="contact">
-      <h2 class="sechead">CONTACT</h2>
+      <h2 class="sechead">KONTAKT</h2>
       <p class="lede">{{ hugo.Data.contact.lede }}</p>
       <p><a class="bigmail" href="mailto:{{ hugo.Data.contact.email }}">{{ hugo.Data.contact.email }}</a></p>
       <address>{{ hugo.Data.contact.name }}<br>{{ hugo.Data.contact.address }}</address>

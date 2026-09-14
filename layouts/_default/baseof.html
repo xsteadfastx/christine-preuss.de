@@ -27,7 +27,7 @@
 <div class="wrap shell">
   {{ $proj := (where .Site.RegularPages "Section" "projekte").ByTitle }}
   <nav class="toc" id="nav" aria-label="Inhaltsangabe">
-    <a class="item" href="{{ "/#art" | relURL }}"><span class="n">01</span>ART</a>
+    <a class="item" href="{{ "/#art" | relURL }}"><span class="n">01</span>ARBEITEN</a>
     <a class="item" href="{{ "/#vita" | relURL }}"><span class="n">02</span>VITA</a>
     {{ if $proj }}
     <button class="group" id="proj-toggle" aria-expanded="false" aria-controls="proj-sublist">
@@ -39,7 +39,7 @@
       {{ end }}
     </div>
     {{ end }}
-    <a class="item" href="{{ "/#contact" | relURL }}"><span class="n">04</span>CONTACT</a>
+    <a class="item" href="{{ "/#contact" | relURL }}"><span class="n">04</span>KONTAKT</a>
   </nav>
   <main>
     {{ block "main" . }}{{ end }}
