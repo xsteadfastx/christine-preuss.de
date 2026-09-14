@@ -18,12 +18,6 @@
 
         # Custom additional hooks
         extraHooks = {
-          have-a-nice-day-hook = {
-            enable = true;
-            entry = "echo 'have a nice day'";
-            stages = [ "pre-commit" ];
-            pass_filenames = false;
-          };
           # typos is an English spell checker; this site's prose is German.
           # Scope it to code files, not content/markdown/YAML.
           typos = {
