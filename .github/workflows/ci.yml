@@ -1,0 +1,37 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  checks:
+    name: Flake checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: DeterminateSystems/magic-nix-cache-action@v9
+      - name: Run flake checks
+        run: nix flake check
+  build:
+    name: Build + smoke test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: DeterminateSystems/nix-installer-action@v14
+      - uses: DeterminateSystems/magic-nix-cache-action@v9
+      - name: Build site
+        id: build
+        run: |
+          echo "site=$(nix build .# --print-out-paths)" >> "$GITHUB_OUTPUT"
+      - name: Smoke test
+        run: |
+          SITE="${{ steps.build.outputs.site }}"
+          test -s "$SITE/index.html"
+          grep -q "CHRISTINE PREUSS" "$SITE/index.html"
+          grep -q "Inhaltsangabe" "$SITE/index.html"
+          # every project folder must have a built page
+          fail=0
+          for d in content/projekte/*/; do
+            [ -s "$SITE/projekte/$(basename "$d")/index.html" ] || fail=1
+          done
+          exit "$fail"
