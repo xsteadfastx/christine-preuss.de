@@ -2,7 +2,9 @@
 <article class="page">
   <header class="page-head">
     <h2 class="sechead">{{ .Title }}</h2>
+    {{ if not .Params.noMeta }}
     <p class="page-meta">{{ with .Params.year }}{{ . }}{{ else }}{{ dateFormat "2006" .Date }}{{ end }}</p>
+    {{ end }}
   </header>
   <div class="prose">{{ .Content }}</div>
 

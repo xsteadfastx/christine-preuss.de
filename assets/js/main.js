@@ -55,22 +55,6 @@
     }
   }
 
-  // Impressum dialog
-  var dlg = document.getElementById("impressum");
-  if (dlg) {
-    document.querySelectorAll('a[href="#impressum"]').forEach(function (a) {
-      a.addEventListener("click", function (e) {
-        e.preventDefault();
-        dlg.showModal();
-      });
-    });
-    var close = dlg.querySelector(".x");
-    if (close) close.addEventListener("click", function () { dlg.close(); });
-    dlg.addEventListener("click", function (e) {
-      if (e.target === dlg) dlg.close();
-    });
-  }
-
   // Gallery lightbox
   var lb = document.getElementById("lightbox");
   var works = [].map.call(document.querySelectorAll("figure[data-title]"), function (f) {

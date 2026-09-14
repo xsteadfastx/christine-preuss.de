@@ -60,22 +60,7 @@
 <footer class="site">
   <div class="wrap footer-inner">
     <span>&copy; {{ now.Year }} Christine Preuß</span>
-    <span class="impressum"><a href="#impressum">Impressum</a>
-      <dialog id="impressum">
-        <button class="x" aria-label="Schließen">&times;</button>
-        <h2>Impressum</h2>
-        <p>Angaben gemäß § 5 TMG</p>
-        <address>
-          Christine Preuß<br>
-          Ehmener Str. 30 · 38165 Lehre<br>
-          E-Mail: <a href="mailto:mail@christine-preuss.de">mail@christine-preuss.de</a>
-        </address>
-        <p class="small">
-          Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV: Christine Preuß.
-          <span class="todo">Bitte Angaben prüfen.</span>
-        </p>
-      </dialog>
-    </span>
+    <a class="impressum" href="{{ "/impressum/" | relURL }}">Impressum</a>
   </div>
 </footer>
 

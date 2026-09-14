@@ -36,6 +36,14 @@
             "RSS"
           ];
           enableRobotsTXT = true;
+          # allow raw HTML in content (needed by the hand-written Impressum)
+          markup = {
+            goldmark = {
+              renderer = {
+                unsafe = true;
+              };
+            };
+          };
           params = {
             author = "Christine Preuß";
             siteName = "CHRISTINE PREUSS";
