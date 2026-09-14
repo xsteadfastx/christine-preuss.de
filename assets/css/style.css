@@ -46,8 +46,23 @@ img{ max-width:100%; display:block; }
 
 /* --- header --- */
 header.site{
-  position:sticky; top:0; z-index:20; background:var(--white);
-  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:20;
+  border-bottom:4px solid #fff;
+  background:linear-gradient(
+    to right,
+    #2e4e46 0%,
+    #35565d 9%,
+    #51779d 18%,
+    #71859b 27%,
+    #929398 36%,
+    #7f4861 45%,
+    #7b455a 54%,
+    #683639 63%,
+    #734739 72%,
+    #826e3e 81%,
+    #514e52 90%,
+    #27355f 100%
+  );
 }
 .header-inner{ padding:2.5rem 0 1.4rem; transition:padding .25s ease; }
 .site-title{
@@ -58,12 +73,8 @@ header.site{
 header.site.is-scrolled .header-inner{ padding:.7rem 0; }
 header.site.is-scrolled .site-title{ font-size:1.25rem; }
 /* header letter colours — sampled from the artwork */
-.site-title .c0{ color:#496f8a; }
-.site-title .c1{ color:#b06c5a; }
-.site-title .c2{ color:#6e8e69; }
-.site-title .c3{ color:#a0912f; }
-.site-title .c4{ color:#629b9b; }
-.site-title .c5{ color:#415d50; }
+/* name in white over the colorfield */
+.site-title{ color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.35); }
 
 /* --- shell: nav left, content right --- */
 .shell{ display:grid; grid-template-columns:200px 1fr; gap:4rem; padding:2.5rem 0 1rem; }
