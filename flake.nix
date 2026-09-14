@@ -31,6 +31,41 @@
           };
         };
 
+        # Site config — single source of truth in Nix; hugo.toml is generated.
+        hugoConfig = {
+          baseURL = "https://christine-preuss.de/";
+          title = "Christine Preuß";
+          locale = "de-de";
+          defaultContentLanguage = "de";
+          disableKinds = [
+            "taxonomy"
+            "RSS"
+          ];
+          enableRobotsTXT = true;
+          params = {
+            author = "Christine Preuß";
+            siteName = "CHRISTINE PREUSS";
+          };
+          imaging = {
+            resampleFilter = "lanczos";
+            anchor = "smart";
+            jpeg = {
+              quality = 82;
+            };
+            webp = {
+              quality = 80;
+              method = 3;
+              hint = "photo";
+            };
+          };
+          caches = {
+            images = {
+              dir = ":cacheDir/images";
+            };
+          };
+        };
+        siteConfig = (pkgs.formats.toml { }).generate "hugo.toml" hugoConfig;
+
         # Generate pre-commit hooks with extras
         preCommitGen = inputs.pre-commit.lib.generate {
           inherit pkgs system;
@@ -45,6 +80,8 @@
           ];
           extraShellHook = ''
             echo "christine-preuss.de devshell"
+            # hugo.toml is generated from Nix — link it into the workspace
+            ln -sfn '${siteConfig}' hugo.toml
           '';
         };
 
@@ -55,7 +92,10 @@
           src = ./.;
           nativeBuildInputs = [ pkgs.hugo ];
           buildPhase = ''
+            runHook preBuild
+            cp '${siteConfig}' ./hugo.toml
             hugo --minify --gc --destination build
+            runHook postBuild
           '';
           installPhase = ''
             mkdir -p "$out"
